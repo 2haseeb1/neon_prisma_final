@@ -6,41 +6,39 @@
 
 generator client {
   provider = "prisma-client-js"
-  
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
- 
-
 
 model Customer {
-  customerId String    @id @default(uuid())
+  customerId String   @id @default(uuid())
   name       String
-  email      String  @unique
+  email      String   @unique
   phone      String
   createdAt  DateTime @default(now())
   bikes      Bike[]
 }
 
 model Bike {
-  bikeId     String     @id @default(uuid())
+  bikeId     String          @id @default(uuid())
   brand      String
   model      String
   year       Int
   customerId String
-  customer   Customer @relation(fields: [customerId], references: [customerId], onDelete: Cascade)
+  customer   Customer        @relation(fields: [customerId], references: [customerId], onDelete: Cascade)
   services   ServiceRecord[]
 }
 
 model ServiceRecord {
-  serviceId      String     @id @default(uuid())
+  serviceId      String    @id @default(uuid())
   bikeId         String
   serviceDate    DateTime
-  completionDate DateTime? 
+  completionDate DateTime?
   description    String
   status         String
-  bike           Bike     @relation(fields: [bikeId], references: [bikeId], onDelete: Cascade)
+  bike           Bike      @relation(fields: [bikeId], references: [bikeId], onDelete: Cascade)
 }
