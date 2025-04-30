@@ -7,13 +7,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npx prisma migrate dev --name init",
+    "postinstall": "npx prisma db push",
     "build": "tsc",
-    "start": " cross-env TZ=UTC node ./dist/server.js",
+    "start": "cross-env TZ=UTC node ./dist/server.js",
     "start:prod": "node ./dist/server.js",
     "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "dev": "tsx watch --tsconfig tsconfig.json src/server.ts",
-    "vercel-build": "npx prisma migrate deploy",
     "seed": "ts-node prisma/seed.ts"
   },
   "devDependencies": {
