@@ -6,16 +6,19 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
-  "scripts": {
-    "postinstall": "npx prisma db push",
-    "build": "tsc",
-    "start": "cross-env TZ=UTC node ./dist/server.js",
-    "start:prod": "node ./dist/server.js",
-    "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "dev": "tsx watch --tsconfig tsconfig.json src/server.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build",
-    "seed": "ts-node src/seed.ts"
-  },
+ 
+ "scripts": {
+  "postinstall": "prisma generate && prisma migrate deploy",
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "start:prod": "node ./dist/server.js",
+  "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+  "dev": "tsx watch --tsconfig tsconfig.json src/server.ts",
+  "vercel-build": "prisma generate && prisma migrate deploy && npm run build",
+  "seed": "ts-node src/seed.ts"
+},
+
+  
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
