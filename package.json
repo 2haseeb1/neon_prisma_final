@@ -8,13 +8,14 @@
   "main": "index.js",
  
  "scripts": {
-  "postinstall": "prisma generate && prisma migrate deploy",
+  "vercel-build": "prisma generate && prisma migrate deploy && npm run build",
   "build": "tsc",
+  "postinstall": "prisma generate && prisma migrate deploy",
   "start": "node dist/server.js",
   "start:prod": "node ./dist/server.js",
   "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
   "dev": "tsx watch --tsconfig tsconfig.json src/server.ts",
-  "vercel-build": "prisma generate && prisma migrate deploy && npm run build",
+
   "seed": "ts-node src/seed.ts"
 },
 
