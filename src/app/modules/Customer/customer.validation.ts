@@ -5,26 +5,26 @@ export const createCustomerValidation = z.object({
     name: z.string({ required_error: 'Name is required' }),
     email: z
       .string({ required_error: 'Email is required' })
-      .email('Invalid email format'), // Ensures valid email format
+      .email('Invalid email format'), 
     phone: z
       .string({ required_error: 'Phone is required' })
       .regex(
         /^[0-9+\-()\s]+$/,
-        'Invalid phone number format' // Ensures valid phone number format
+        'Invalid phone number format' 
       ),
   }),
 });
 
-// ⭐ Add this new validation for ID param
+
 export const getCustomerByIdValidation = z.object({
   params: z.object({
     id: z.string({ required_error: 'Customer ID is required' }).uuid('Invalid UUID format'),
   }),
 });
 
-// (Optional) Your getAllCustomersValidation (if you have filters later)
+
 export const getAllCustomersValidation = z.object({
-  query: z.object({}), // No specific query params right now
+  query: z.object({}), 
 });
 
 export const updateCustomerValidation = z.object({
@@ -33,13 +33,13 @@ export const updateCustomerValidation = z.object({
     email: z
       .string()
       .email('Invalid email format')
-      .optional(), // Ensures valid email format, optional for updates
+      .optional(), 
     phone: z
       .string()
       .regex(
         /^[0-9+\-()\s]+$/,
         'Invalid phone number format'
       )
-      .optional(), // Ensures valid phone number format, optional for updates
+      .optional(), 
   }),
 });

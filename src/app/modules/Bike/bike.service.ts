@@ -5,14 +5,13 @@ const prisma = new PrismaClient();
 
 export const BikeService = {
   async createBike(payload: { brand: string; model: string; year: number; customerId: string }) {
-    // Check required fields
+   
     if (!payload.brand || !payload.model || !payload.year || !payload.customerId) {
       const error = new Error("brand, model, year, and customerId are required");
       (error as any).statusCode = 400;
       throw error;
     }
 
-    // Check if customer exists
     const customer = await prisma.customer.findUnique({
       where: { customerId: payload.customerId },
     });
@@ -22,7 +21,6 @@ export const BikeService = {
       throw error;
     }
 
-    // Create the bike
     const newBike = await prisma.bike.create({
       data: {
         brand: payload.brand,

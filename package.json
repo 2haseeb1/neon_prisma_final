@@ -11,12 +11,12 @@
   "vercel-build": "prisma generate && prisma migrate deploy && npm run build",
   "build": "tsc",
   "postinstall": "prisma generate && prisma migrate deploy",
-  "start": "node dist/server.js",
+  "start": "cross-env TZ=UTC node ./dist/server.js",
   "start:prod": "node ./dist/server.js",
   "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
   "dev": "tsx watch --tsconfig tsconfig.json src/server.ts",
 
-  "seed": "ts-node src/seed.ts"
+  "seed": "ts-node prisma/seed.ts"
 },
 
   

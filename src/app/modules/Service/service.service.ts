@@ -1,16 +1,16 @@
-import prisma from '../../../prisma'; // Adjust path as needed
+import prisma from '../../../prisma'; 
 import { ServiceRecord } from '@prisma/client';
 import { CreateServiceBody } from '../../types/serviceTypes';
 import { subDays, startOfDay } from 'date-fns';
 import { mapStatusFromApi } from '../../utils/statusMapping';
 
-// 1. Create a Service Record
+
 const createServiceRecordInDB = async (payload: CreateServiceBody): Promise<ServiceRecord> => {
   if (!payload.bikeId || !payload.serviceDate || !payload.description || !payload.status) {
     throw new Error('All fields (bikeId, serviceDate, description, status) are required');
   }
 
-  // Validate and map status to normalized string
+
   let statusValue: string;
   try {
     statusValue = mapStatusFromApi(payload.status);
@@ -18,7 +18,6 @@ const createServiceRecordInDB = async (payload: CreateServiceBody): Promise<Serv
     throw new Error('Invalid status value');
   }
 
-  // Validate date
   if (isNaN(Date.parse(payload.serviceDate))) {
     throw new Error('Invalid serviceDate');
   }
@@ -38,17 +37,17 @@ const createServiceRecordInDB = async (payload: CreateServiceBody): Promise<Serv
   });
 };
 
-// 2. Get All Service Records
+
 const getAllServiceRecordsFromDB = async (): Promise<ServiceRecord[]> => {
   return await prisma.serviceRecord.findMany();
 };
 
-// 3. Get a Specific Service Record by ID
+
 const getServiceRecordByIdFromDB = async (serviceId: string): Promise<ServiceRecord | null> => {
   return await prisma.serviceRecord.findUnique({ where: { serviceId } });
 };
 
-// 4. Mark a Service as Completed
+
 const completeServiceInDB = async (id: string, completionDate?: Date): Promise<ServiceRecord> => {
   const service = await prisma.serviceRecord.findUnique({ where: { serviceId: id } });
   if (!service) {
@@ -64,8 +63,9 @@ const completeServiceInDB = async (id: string, completionDate?: Date): Promise<S
   });
 };
 
-// 5. Get Pending or Overdue Services (older than 7 days)
-const getOverdueOrPendingServicesFromDB = async (sevenDaysAgo: Date): Promise<ServiceRecord[]> => {
+const getOverdueOrPendingServicesFromDB = async (): Promise<ServiceRecord[]> => {
+  const sevenDaysAgo = subDays(startOfDay(new Date()), 7);
+console.log("sevendaysago",sevenDaysAgo)
   return await prisma.serviceRecord.findMany({
     where: {
       status: { in: ['pending', 'in-progress'] },

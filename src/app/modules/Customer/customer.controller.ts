@@ -15,7 +15,7 @@ const createCustomer = catchAsync(async (req: Request, res: Response) => {
 
   if (existingCustomer) {
     const error = new Error('Email already in use. Please use a different email address.');
-    (error as any).statusCode = httpStatus.BAD_REQUEST;
+    (error as any).status = httpStatus.BAD_REQUEST;
     throw error;
   }
 
@@ -23,9 +23,7 @@ const createCustomer = catchAsync(async (req: Request, res: Response) => {
     data: { name, email, phone },
   });
 
-  // here statusCode is used only in res.status(), not in the response body
   sendResponse(res, {
-    
     success: true,
     message: 'Customer created successfully',
     data: {
@@ -39,11 +37,10 @@ const createCustomer = catchAsync(async (req: Request, res: Response) => {
 });
 
 // Get All Customers
-const getAllCustomers = catchAsync(async (req: Request, res: Response) => {
+const getAllCustomers = catchAsync(async (_req: Request, res: Response) => {
   const customers = await prisma.customer.findMany();
 
   sendResponse(res, {
-   
     success: true,
     message: 'Customers fetched successfully',
     data: customers,
@@ -60,21 +57,14 @@ const getCustomerById = catchAsync(async (req: Request, res: Response) => {
 
   if (!customer) {
     const error = new Error('Customer not found');
-    (error as any).statusCode = httpStatus.NOT_FOUND;
-    throw error;
+    (error as any).statusCode = 404;
+    throw error; 
   }
 
   sendResponse(res, {
-   
     success: true,
     message: 'Customer fetched successfully',
-    data: {
-      customerId: customer.customerId,
-      name: customer.name,
-      email: customer.email,
-      phone: customer.phone,
-      createdAt: customer.createdAt,
-    },
+    data: customer,
   });
 });
 
@@ -89,7 +79,7 @@ const updateCustomer = catchAsync(async (req: Request, res: Response) => {
 
   if (!existingCustomer) {
     const error = new Error('Customer not found');
-    (error as any).statusCode = httpStatus.NOT_FOUND;
+    (error as any).status = httpStatus.NOT_FOUND;
     throw error;
   }
 
@@ -99,16 +89,9 @@ const updateCustomer = catchAsync(async (req: Request, res: Response) => {
   });
 
   sendResponse(res, {
-    
     success: true,
     message: 'Customer updated successfully',
-    data: {
-      customerId: updatedCustomer.customerId,
-      name: updatedCustomer.name,
-      email: updatedCustomer.email,
-      phone: updatedCustomer.phone,
-      createdAt: updatedCustomer.createdAt,
-    },
+    data: updatedCustomer,
   });
 });
 
@@ -122,7 +105,7 @@ const deleteCustomerById = catchAsync(async (req: Request, res: Response) => {
 
   if (!existingCustomer) {
     const error = new Error('Customer not found');
-    (error as any).statusCode = httpStatus.NOT_FOUND;
+    (error as any).status = httpStatus.NOT_FOUND;
     throw error;
   }
 
@@ -131,14 +114,12 @@ const deleteCustomerById = catchAsync(async (req: Request, res: Response) => {
   });
 
   sendResponse(res, {
-   
     success: true,
     message: 'Customer deleted successfully',
     data: null,
   });
 });
 
-// Export all
 export const customerController = {
   createCustomer,
   getAllCustomers,

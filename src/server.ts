@@ -17,6 +17,8 @@ async function startServer() {
 
     // Start the server with error handling
     app.listen(PORT, () => {
+      
+console.log(` Environment: ${config.env}`);
       console.log(`🚀 Server is running on http://localhost:${PORT}`);
     }).on('error', (err: any) => {
       console.error('❌ Failed to start server:', err);
