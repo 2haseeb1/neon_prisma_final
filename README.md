@@ -66,7 +66,7 @@ project-root/
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/bike-service-api.git
+git clone https://github.com/yourusername/bike-service-sample-api.git
 cd bike-service-api
 ```
 
